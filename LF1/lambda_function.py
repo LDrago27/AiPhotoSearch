@@ -10,7 +10,7 @@ def lambda_handler(event, context):
         MASTER_NODE =  "master"
         MASTER_PASSWORD = "Random#123"
         DOMAIN_ENDPOINT = "https://search-photos-1-4jicn37nt6b2iuttodfow3ct2m.us-east-1.es.amazonaws.com/photos-1/_doc/"
-    
+        print("Yo")
         session = boto3.Session()
         client = session.client('rekognition')
         records = event["Records"]
