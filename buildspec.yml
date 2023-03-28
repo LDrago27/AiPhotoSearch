@@ -1,23 +1,11 @@
-version: 0.2
+version: 0.1
 phases:
   install:
-    runtime-versions:
-      python: 3.8
     commands:
-      - echo "Installing dependencies..."
-      - pip install -r requirements.txt -t lib
-  build:
-    commands:
-      - echo "Zipping deployment package..."
-      - cd lib
-      - zip -r9 ../deployment_package.zip .
-      - zip -r9 ../deployment_package1.zip .
-      - cd ..
-      - zip -g deployment_package.zip ./LF1/lambda_function.py
-      - zip -g deployment_package1.zip ./LF2/lambda_function.py
-  post_build:
-    commands:
-      - echo "Updating lambda Function..."
-      - aws lambda update-function-code --function-name index-photos1 --zip-file fileb://deployment_package.zip
-      - aws lambda update-function-code --function-name search-photos1 --zip-file fileb://deployment_package1.zip
-      - echo "DONE!!"
+      - aws cloudformation package --template-file CodePipeLineCloudFormationYaml.yaml --s3-bucket codepipeline-artifacts-st3523 --output-template-file outputsamtemplate.yml
+artifacts:
+  type: zip
+  files:
+    - samTemplate.yaml
+    - outputsamtemplate.yml
+Footer
