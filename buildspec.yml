@@ -5,5 +5,5 @@ phases:
       - aws cloudformation package --template-file sampleTemplate.yaml --s3-bucket codepipeline-us-east-1-585635839497 --output-template-file outputsamtemplate.yml
 artifacts:
   files:
-    - samTemplate.yaml
+    - samTemplate.yml
     - outputsamtemplate.yml
