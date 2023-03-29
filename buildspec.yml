@@ -1,9 +1,32 @@
-version: 0.1
+version: 0.2
 phases:
   install:
+      runtime-versions:
+       python: 3.9
+      commands:
+       - echo doing something
+  build:
     commands:
-      - aws cloudformation package --template-file sampleTemplate.yml --s3-bucket codepipeline-us-east-1-585635839497 --output-template-file outputsamtemplate.yml
-artifacts:
-  files:
-    - samTemplate.yml
-    - outputsamtemplate.yml
+      - cd LF1
+      - pip install --target ./package requests
+      - pip install --target ./package requests_aws4auth
+      - cd package
+      - zip -r ../LF1.zip .
+      - cd ..
+      - zip LF1.zip lambda_function.py
+  post_build:
+    commands:
+      - cd ..
+      - cd LF2
+      - pip install --target ./package requests
+      - pip install --target ./package requests_aws4auth
+      - cd package
+      - zip -r ../LF2.zip .
+      - cd ..
+      - zip LF2.zip lambda_function.py
+      - cd ..
+artifacts: 
+   files:
+    - './LF1/LF1.zip'
+    - './LF2/LF2.zip'
+
