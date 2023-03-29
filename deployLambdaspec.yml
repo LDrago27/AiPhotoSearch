@@ -1,0 +1,10 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+
+  post_build:
+    commands:
+      - aws lambda update-function-code \--index-photos1  LF1 \--s3-bucket artifactbucket2 --s3-key Build.zip/LF1/LF1.zip
+      - aws lambda update-function-code \--search-photos1  LF2 \--s3-bucket artifactbucket2 --s3-key Build.zip/LF2/LF2.zip
