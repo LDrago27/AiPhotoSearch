@@ -2,9 +2,9 @@ version: 0.2
 phases:
   install:
       runtime-versions:
-       python: 3.9
+       python: 3.8
       commands:
-       - echo setting up environment
+       - echo doing something
   build:
     commands:
       - cd LF1
@@ -29,3 +29,4 @@ artifacts:
    files:
     - './LF1/LF1.zip'
     - './LF2/LF2.zip'
+
