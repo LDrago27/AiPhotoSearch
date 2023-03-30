@@ -40,7 +40,7 @@ def lambda_handler(event, context):
             requestBody = {"size":20,"query":{"bool":{}}}
             
             for key in searchKey:
-                shouldArray.append({"match":{"labels":{"query":key,"fuzziness":5}}})
+                shouldArray.append({"match":{"labels":{"query":key,"fuzziness":3}}})
             
             if not len(shouldArray):
                 shouldArray.append({"labels":{"query":"*"}})
