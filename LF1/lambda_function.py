@@ -27,7 +27,10 @@ def lambda_handler(event, context):
         timestamp = str(response["LastModified"])
 
         print(response)
-        customLabels = [ele.strip().lower() for ele in response["ResponseMetadata"]["HTTPHeaders"]["x-amz-meta-customlabels"].split(",")]
+        if "x-amz-meta-customlabels" in response["ResponseMetadata"]["HTTPHeaders"]:
+            customLabels = [ele.strip().lower() for ele in response["ResponseMetadata"]["HTTPHeaders"]["x-amz-meta-customlabels"].split(",")]
+        else:
+            customLabels = []
 
         # Using Rekognition client to obtain the custom labels in the image
         labelResponse = client.detect_labels(Image={'S3Object':{'Bucket':bucketName,'Name':itemKey}} )
