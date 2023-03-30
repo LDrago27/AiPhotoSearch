@@ -40,10 +40,10 @@ def lambda_handler(event, context):
             requestBody = {"size":20,"query":{"bool":{}}}
             
             for key in searchKey:
-                shouldArray.append({"term":{"labels":key}})
+                shouldArray.append({"match":{"labels":{"query":key,"fuzziness":"AUTO"}}})
             
-            if shouldArray:
-                shouldArray.append({"term":{"labels":"*"}})
+            if not len(shouldArray):
+                shouldArray.append({"labels":{"query":"*"}})
                 
             requestBody['query']['bool']['should'] = shouldArray
     
@@ -55,9 +55,11 @@ def lambda_handler(event, context):
             
             nameList= []
             content["hits"]["hits"].sort(key = lambda x: x["_score"],reverse = True)
+
+            s3urlClient =  boto3.client('s3')
             
             for hitObj in content["hits"]["hits"]:
-                url = "https://photo2store.s3.amazonaws.com/" + hitObj["_id"] 
+                url = s3urlClient.generate_presigned_url(ClientMethod='get_object', Params={'Bucket': 'photo2store', 'Key': hitObj["_id"]},ExpiresIn=3600)
                 nameList.append({"url":url,"name":hitObj["_id"]})
     
             print(content)
