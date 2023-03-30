@@ -40,7 +40,7 @@ def lambda_handler(event, context):
             requestBody = {"size":20,"query":{"bool":{}}}
             
             for key in searchKey:
-                shouldArray.append({"match":{"labels":{"query":key,"fuzziness":"AUTO"}}})
+                shouldArray.append({"match":{"labels":{"query":key,"fuzziness":5}}})
             
             if not len(shouldArray):
                 shouldArray.append({"labels":{"query":"*"}})
@@ -60,7 +60,8 @@ def lambda_handler(event, context):
             
             for hitObj in content["hits"]["hits"]:
                 url = s3urlClient.generate_presigned_url(ClientMethod='get_object', Params={'Bucket': 'photo2store', 'Key': hitObj["_id"]},ExpiresIn=3600)
-                nameList.append({"url":url,"name":hitObj["_id"]})
+                labels = ",".join(hitObj["_source"]["labels"])
+                nameList.append({"url":url,"name":hitObj["_id"],"labels":labels})
     
             print(content)
             if resp.status_code == 200:
