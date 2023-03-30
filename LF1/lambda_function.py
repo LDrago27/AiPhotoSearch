@@ -1,7 +1,7 @@
 import json
 import boto3
 import requests
-
+from urllib.parse import unquote_plus
 
 
 def lambda_handler(event, context):
@@ -19,6 +19,8 @@ def lambda_handler(event, context):
 
         bucketName = record["s3"]["bucket"]["name"]
         itemKey = record["s3"]["object"]["key"]
+        
+        itemKey = unquote_plus(itemKey)
 
         s3Client = boto3.client('s3')
         response = s3Client.head_object(Bucket = bucketName, Key = itemKey)
