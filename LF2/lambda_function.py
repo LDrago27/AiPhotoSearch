@@ -6,7 +6,7 @@ import ast
 def lambda_handler(event, context):
     print(event)
     inputText = event['q']
-    print(inputText)
+    print("Input Text:",inputText)
     client = boto3.client('lexv2-runtime')
     
     DOMAIN_ENDPOINT = "https://search-photos-1-4jicn37nt6b2iuttodfow3ct2m.us-east-1.es.amazonaws.com/photos-1/_search"
