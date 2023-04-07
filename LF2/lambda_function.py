@@ -4,7 +4,7 @@ import requests
 import ast
 
 def lambda_handler(event, context):
-    print(event)
+    print("EVENT DEMO:",event)
     inputText = event['q']
     print("Input Text:",inputText)
     client = boto3.client('lexv2-runtime')
